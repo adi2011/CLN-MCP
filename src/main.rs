@@ -1,6 +1,10 @@
+mod client;
 mod error;
 mod utils;
+
+use crate::client::config::{create_channel, ClientConfig};
 use crate::utils::tls::load_tls_config;
+use anyhow::Result;
 use std::env;
 use std::time::Duration;
 
@@ -59,6 +63,13 @@ async fn main() -> Result<()> {
 
     // Load TLS certificate
     let tls_config = load_tls_config(certs_dir).await?;
+
+    // Create channel with default config
+    let config = ClientConfig::new(node_addr, Duration::from_secs(1), Duration::from_secs(5));
+
+    let channel = create_channel(&config)?
+        .tls_config(tls_config)?
+        .connect_lazy();
 
     Ok(())
 }
