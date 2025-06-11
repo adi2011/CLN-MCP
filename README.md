@@ -46,8 +46,7 @@ Copy the following PEM files from the Lightning directory to a separate director
 
 ### Claude Setup
  - Install [Claude](https://claude.ai/download)
- - Go to settings
- ![Claude](https://mintlify.s3.us-west-1.amazonaws.com/mcp/images/quickstart-developer.png)
+ - Go to settings -> Developer
  - Edit Config
  ```
     {
@@ -65,9 +64,9 @@ Copy the following PEM files from the Lightning directory to a separate director
  - Restart Claude
 
 # Future Goals
- [ ] Enable it to derive parameters for the RPC calls
- [ ] Choose the most appropriate and useful RPCs for maximum utility
- [ ] Extend support for LND
- [ ] Host multiple servers to make it more efficient
+ [ ] Enable it to derive parameters for the RPC calls  
+ [ ] Choose the most appropriate and useful RPCs for maximum utility  
+ [ ] Extend support for LND  
+ [ ] Host multiple servers to make it more efficient  
 
 This is a work in progress. We welcome code reviews, pull requests, and issues based on your usage.

@@ -3,8 +3,10 @@ mod error;
 mod utils;
 
 use crate::client::config::{create_channel, ClientConfig};
+use crate::client::node::NodeService;
 use crate::utils::tls::load_tls_config;
 use anyhow::Result;
+use rmcp::{transport::stdio, ServiceExt};
 use std::env;
 use std::time::Duration;
 
@@ -71,5 +73,14 @@ async fn main() -> Result<()> {
         .tls_config(tls_config)?
         .connect_lazy();
 
+    // Create and run the server with STDIO transport
+    let service = NodeService::new(channel)
+        .serve(stdio())
+        .await
+        .inspect_err(|e| {
+            println!("Error starting server: {}", e);
+        })?;
+
+    service.waiting().await?;
     Ok(())
 }
