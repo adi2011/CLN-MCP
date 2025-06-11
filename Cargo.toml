@@ -1,0 +1,21 @@
+[package]
+name = "cln-mcp"
+version = "0.1.0"
+edition = "2021"
+authors = Aditya Sharma <aditya.sharma20111@gmail.com>>
+description = "A Rust-based MCP server for Core Lightning nodes"
+license = "MIT"
+repository = "https://github.com/adi2011/cln-mcp"
+
+[dependencies]
+rmcp = { version = "0.1", features = ["transport-io", "server"] }
+tokio = { version = "1.43.0", features = ["full"] }
+serde_json = "1.0.139"
+serde = { version = "1.0.218", features = ["derive"] }
+cln-grpc = "0.4.0"
+anyhow = "1.0.98"
+tonic = { version = "0.11", features = ["tls"] }
+prost = "0.11"           # ✅ Needed by tonic 0.9
+http = "0.2"             # ✅ Matches tonic 0.9
+http-body = "0.4"        # ✅ Matches tonic 0.9
+thiserror = "2.0.12"
