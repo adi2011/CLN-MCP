@@ -1,12 +1,11 @@
 use cln_grpc::pb::node_client::NodeClient;
 use cln_grpc::pb::{
     BkprchannelsapyRequest, BkprlistaccounteventsRequest, BkprlistbalancesRequest,
-    BkprlistincomeRequest, CheckmessageRequest, DecodeRequest, DecodepayRequest, FeeratesRequest,
-    GetinfoRequest, GetlogRequest, GetrouteRequest, ListaddressesRequest, ListchannelsRequest,
-    ListclosedchannelsRequest, ListconfigsRequest, ListdatastoreRequest, ListforwardsRequest,
-    ListfundsRequest, ListhtlcsRequest, ListinvoicerequestsRequest, ListinvoicesRequest,
-    ListnodesRequest, ListoffersRequest, ListpaysRequest, ListpeerchannelsRequest,
-    ListpeersRequest, ListsendpaysRequest,
+    BkprlistincomeRequest, FeeratesRequest, GetinfoRequest, GetlogRequest, ListaddressesRequest,
+    ListchannelsRequest, ListclosedchannelsRequest, ListconfigsRequest, ListdatastoreRequest,
+    ListforwardsRequest, ListfundsRequest, ListhtlcsRequest, ListinvoicesRequest, ListnodesRequest,
+    ListoffersRequest, ListpaysRequest, ListpeerchannelsRequest, ListpeersRequest,
+    ListsendpaysRequest,
 };
 use rmcp::{model::*, tool, Error as McpError};
 use serde::Serialize;
