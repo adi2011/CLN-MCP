@@ -25,7 +25,7 @@ jobs:
             artifact_pattern: "cln-mcp-macos-x86_64.tar.gz"
           - os: windows-latest
             name: windows-x86_64
-            artifact_name: cln-mcp-windows-x86_64.exe
+            artifact_name: cln-mcp-windows-x86_64
             artifact_pattern: "cln-mcp-windows-x86_64.zip"
 
 
