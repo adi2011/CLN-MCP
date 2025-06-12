@@ -14,6 +14,25 @@ A Rust-based gRPC server that provides a standardized interface to Core Lightnin
 
 ![MCP](./assets/mcp-screenshot.png)
 
+## Installation
+
+### Option 1: From Release (Recommended)
+
+1. Download the appropriate binary for your platform from the [latest release](https://github.com/adi2011/cln-mcp/releases/latest)
+2. Extract the archive:
+   ```bash
+   # For Linux/macOS
+   tar -xzf cln-mcp-<platform>.tar.gz
+   
+   # For Windows
+   # Use your preferred zip extractor
+   ```
+3. Make the binary executable (Linux/macOS only):
+   ```bash
+   chmod +x cln-mcp
+   ```
+
+### Option 2: From Source
 ## Prerequisites
 
 - Rust 1.80 or higher
@@ -42,8 +61,6 @@ choco install protoc
 ```bash
 protoc --version  # Should show version 3.0.0 or higher
 ```
-
-## Installation
 
 1. Clone the repository:
 ```bash
@@ -85,7 +102,7 @@ Copy the following PEM files from the Lightning directory to a separate director
     {
         "mcpServers" : {
             "cln-mcp" : {
-                "command": "Path/to/cln-mcp" (ex: "/Users/MyPC/cln-mcp/target/release/cln-mcp"),
+                "command": "Path/to/cln-mcp" (ex: "/Users/MyPC/cln-mcp/target/release/cln-mcp" or the executable unzipped from the release),
                 "args": [
                     "--certs-dir",
                     "Path/to/certificates" (ex: "/Users/MyPC/cln-mcp/certs")
