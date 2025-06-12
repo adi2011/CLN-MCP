@@ -51,7 +51,7 @@ jobs:
           export LIBRARY_PATH=/opt/homebrew/lib
 
           python3.10 -m poetry run ./configure --disable-valgrind --disable-compat
-          python3.10 -m poetry run make
+          python3.10 -m poetry run make -j
 
       - name: Start bitcoind in regtest mode
         run: |
@@ -81,4 +81,4 @@ jobs:
           rustup override set stable
 
       - name: Build server
-        run: cargo run -- --certs-dir /Users/runner/.lightning/regtest
+        run: cargo test
