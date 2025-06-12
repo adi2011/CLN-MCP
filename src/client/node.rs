@@ -40,7 +40,7 @@ where
             ]))
         }
         Err(e) => Err(McpError::internal_error(
-            format!("Failed to communicate with lightning node: {}", e),
+            format!("Failed to communicate with lightning node: {e}"),
             None,
         )),
     }

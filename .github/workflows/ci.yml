@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ ubuntu-latest, windows-latest, macos-latest ]
+        toolchain: [ stable, beta, nightly ]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Install Rust ${{ matrix.toolchain }} toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain ${{ matrix.toolchain }}
+          rustup override set ${{ matrix.toolchain }}
+      # Add protoc installation steps for each OS
+      - name: Install protoc (Ubuntu)
+        if: "matrix.platform == 'ubuntu-latest'"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+
+      - name: Install protoc (macOS)
+        if: "matrix.platform == 'macos-latest'"
+        run: |
+          brew install protobuf
+
+      - name: Install protoc (Windows)
+        if: "matrix.platform == 'windows-latest'"
+        run: |
+          choco install protoc
+
+      - name: Install no-std-check dependencies for ARM Embedded
+        if: "matrix.platform == 'ubuntu-latest'"
+        run: |
+          rustup target add thumbv7m-none-eabi
+          sudo apt-get -y install gcc-arm-none-eabi
+          sudo apt-get -y install gcc-arm-none-eabi
+      - name: Build server
+        run: cargo build
+
+  check_release:
+    runs-on: ubuntu-latest
+    env:
+      TOOLCHAIN: stable
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Rust ${{ env.TOOLCHAIN }} toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain ${{ env.TOOLCHAIN }}
+          rustup override set ${{ env.TOOLCHAIN }}
+      - name: Install protoc (Ubuntu)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+      - name: Run cargo check for release build.
+        run: |
+            cargo check --release
+            cargo doc --release
+
+  rustfmt:
+    runs-on: ubuntu-latest
+    env:
+      TOOLCHAIN: stable
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Install Rust ${{ env.TOOLCHAIN }} toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain ${{ env.TOOLCHAIN }}
+          rustup override set ${{ env.TOOLCHAIN }}
+      - name: Install rustfmt
+        run: |
+          rustup component add rustfmt
+      - name: Run rustfmt checks
+        run: cargo fmt --check
+
+  linting:
+    runs-on: ubuntu-latest
+    env:
+      TOOLCHAIN: stable
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      - name: Install Rust ${{ env.TOOLCHAIN }} toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain ${{ env.TOOLCHAIN }}
+          rustup override set ${{ env.TOOLCHAIN }}
+      - name: Install protoc (Ubuntu)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+      - name: Install clippy
+        run: |
+          rustup component add clippy
+      - name: Run default clippy linting
+        run: cargo clippy -- -D warnings
