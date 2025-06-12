@@ -1,14 +1,47 @@
 # Core Lightning MCP Server
 
+<div align="center">
+
+[![Rust Version](https://img.shields.io/badge/rust-1.80%2B-blue.svg)](https://www.rust-lang.org) &nbsp;
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) &nbsp;
+![](https://badge.mcpx.dev?type=server 'MCP Server') &nbsp;
+[![CI](https://github.com/adi2011/cln-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/adi2011/cln-mcp/actions/workflows/ci.yml) &nbsp;
+[![gRPC Tests](https://github.com/adi2011/cln-mcp/actions/workflows/grpc.yml/badge.svg)](https://github.com/adi2011/cln-mcp/actions/workflows/grpc.yml) &nbsp;
+
+</div>
+
 A Rust-based gRPC server that provides a standardized interface to Core Lightning nodes. This server implements the MCP (Model Context Protocol) specification to enable control of the Core Lightning node using LLM.
 
-![MCP](./Screenshot%202025-06-11%20at%207.52.11 PM.png)
+![MCP](./assets/mcp-screenshot.png)
 
 ## Prerequisites
 
-- Rust 1.70 or higher
+- Rust 1.80 or higher
+- Protocol Buffers Compiler (protoc)
 - Core Lightning (with gRPC enabled)
 - MCP clients ([Claude](https://claude.ai/download), [Goose](https://github.com/block/goose), etc.)
+
+#### Protocol Buffers Compiler (protoc)
+**Ubuntu/Debian:**
+```bash
+sudo apt-get update
+sudo apt-get install -y protobuf-compiler
+```
+
+**macOS:**
+```bash
+brew install protobuf
+```
+
+**Windows:**
+```bash
+choco install protoc
+```
+
+**Verify installation:**
+```bash
+protoc --version  # Should show version 3.0.0 or higher
+```
 
 ## Installation
 
