@@ -22,7 +22,7 @@ thiserror = "2.0.12"
 
 [[test]]
 name = "integration_test"
-path = "src/tests/integration_test.rs"
+path = "tests/integration_test.rs"
 
 [dev-dependencies]
 tokio-test = "0.4"
