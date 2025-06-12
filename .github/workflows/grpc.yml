@@ -13,15 +13,16 @@ jobs:
   CLN-GRPC:
     name: Server test
     runs-on: macos-14
-    env:
-      TOOLCHAIN: stable
     timeout-minutes: 180
     strategy:
       fail-fast: true
       matrix:
         bitcoind-version: ["27.1"]
     steps:
-      - name: Checkout
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Get CLN
         run: git clone https://github.com/ElementsProject/lightning.git
 
       - name: Download Bitcoin ${{ matrix.bitcoind-version }} & install binaries
@@ -74,28 +75,10 @@ jobs:
           cd lightning
           cli/lightning-cli --regtest getinfo
 
-
-      - name: file dhundna zara
+      - name: Install Rust stable toolchain
         run: |
-            ls -a
-            cd ..
-            ls -a
-            cd /CLN-MCP/lightning
-            ls -a
-
-      - name: tree
-        run: |
-            brew install tree
-            tree -a
-
-      - name: Install Rust ${{ env.toolchain }} toolchain
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain ${{ env.toolchain }}
-          rustup override set ${{ env.toolchain }}
-
-      - name: Install protoc (macOS)
-        run: |
-          brew install protobuf
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain stable
+          rustup override set stable
 
       - name: Build server
-        run: cargo run -- --certs-dir ../.lightning/regtest/
+        run: cargo run -- --certs-dir /Users/runner/.lightning/regtest
