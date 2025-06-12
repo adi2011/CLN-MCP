@@ -1,12 +1,11 @@
 use cln_grpc::pb::node_client::NodeClient;
 use cln_grpc::pb::{
     BkprchannelsapyRequest, BkprlistaccounteventsRequest, BkprlistbalancesRequest,
-    BkprlistincomeRequest, CheckmessageRequest, DecodeRequest, DecodepayRequest, FeeratesRequest,
-    GetinfoRequest, GetlogRequest, GetrouteRequest, ListaddressesRequest, ListchannelsRequest,
-    ListclosedchannelsRequest, ListconfigsRequest, ListdatastoreRequest, ListforwardsRequest,
-    ListfundsRequest, ListhtlcsRequest, ListinvoicerequestsRequest, ListinvoicesRequest,
-    ListnodesRequest, ListoffersRequest, ListpaysRequest, ListpeerchannelsRequest,
-    ListpeersRequest, ListsendpaysRequest,
+    BkprlistincomeRequest, FeeratesRequest, GetinfoRequest, GetlogRequest, ListaddressesRequest,
+    ListchannelsRequest, ListclosedchannelsRequest, ListconfigsRequest, ListdatastoreRequest,
+    ListforwardsRequest, ListfundsRequest, ListhtlcsRequest, ListinvoicesRequest, ListnodesRequest,
+    ListoffersRequest, ListpaysRequest, ListpeerchannelsRequest, ListpeersRequest,
+    ListsendpaysRequest,
 };
 use rmcp::{model::*, tool, Error as McpError};
 use serde::Serialize;
@@ -156,14 +155,14 @@ impl NodeService {
         get_response(res)
     }
 
-    #[tool(description = doc_from_file!("listinvoicerequests.md"))]
-    pub async fn list_invoice_requests(&self) -> Result<CallToolResult, McpError> {
-        let request = Request::new(ListinvoicerequestsRequest::default());
-        let mut client = self.client.lock().await;
+    // #[tool(description = doc_from_file!("listinvoicerequests.md"))]
+    // pub async fn list_invoice_requests(&self) -> Result<CallToolResult, McpError> {
+    //     let request = Request::new(ListinvoicerequestsRequest::default());
+    //     let mut client = self.client.lock().await;
 
-        let res = client.list_invoice_requests(request).await;
-        get_response(res)
-    }
+    //     let res = client.list_invoice_requests(request).await;
+    //     get_response(res)
+    // }
 
     // Network Information
     #[tool(description = doc_from_file!("listpeers.md"))]
@@ -193,14 +192,14 @@ impl NodeService {
         get_response(res)
     }
 
-    #[tool(description = doc_from_file!("getroute.md"))]
-    pub async fn get_route(&self) -> Result<CallToolResult, McpError> {
-        let request = Request::new(GetrouteRequest::default());
-        let mut client = self.client.lock().await;
+    // #[tool(description = doc_from_file!("getroute.md"))]
+    // pub async fn get_route(&self) -> Result<CallToolResult, McpError> {
+    //     let request = Request::new(GetrouteRequest::default());
+    //     let mut client = self.client.lock().await;
 
-        let res = client.get_route(request).await;
-        get_response(res)
-    }
+    //     let res = client.get_route(request).await;
+    //     get_response(res)
+    // }
 
     // Offer Information
     #[tool(description = doc_from_file!("listoffers.md"))]
@@ -260,32 +259,32 @@ impl NodeService {
     }
 
     // Utility Commands
-    #[tool(description = doc_from_file!("decode.md"))]
-    pub async fn decode(&self) -> Result<CallToolResult, McpError> {
-        let request = Request::new(DecodeRequest::default());
-        let mut client = self.client.lock().await;
+    // #[tool(description = doc_from_file!("decode.md"))]
+    // pub async fn decode(&self) -> Result<CallToolResult, McpError> {
+    //     let request = Request::new(DecodeRequest::default());
+    //     let mut client = self.client.lock().await;
 
-        let res = client.decode(request).await;
-        get_response(res)
-    }
+    //     let res = client.decode(request).await;
+    //     get_response(res)
+    // }
 
-    #[tool(description = doc_from_file!("decodepay.md"))]
-    pub async fn decode_pay(&self) -> Result<CallToolResult, McpError> {
-        let request = Request::new(DecodepayRequest::default());
-        let mut client = self.client.lock().await;
+    // #[tool(description = doc_from_file!("decodepay.md"))]
+    // pub async fn decode_pay(&self) -> Result<CallToolResult, McpError> {
+    //     let request = Request::new(DecodepayRequest::default());
+    //     let mut client = self.client.lock().await;
 
-        let res = client.decode_pay(request).await;
-        get_response(res)
-    }
+    //     let res = client.decode_pay(request).await;
+    //     get_response(res)
+    // }
 
-    #[tool(description = doc_from_file!("checkmessage.md"))]
-    pub async fn check_message(&self) -> Result<CallToolResult, McpError> {
-        let request = Request::new(CheckmessageRequest::default());
-        let mut client = self.client.lock().await;
+    // #[tool(description = doc_from_file!("checkmessage.md"))]
+    // pub async fn check_message(&self) -> Result<CallToolResult, McpError> {
+    //     let request = Request::new(CheckmessageRequest::default());
+    //     let mut client = self.client.lock().await;
 
-        let res = client.check_message(request).await;
-        get_response(res)
-    }
+    //     let res = client.check_message(request).await;
+    //     get_response(res)
+    // }
 
     #[tool(description = doc_from_file!("feerates.md"))]
     pub async fn feerates(&self) -> Result<CallToolResult, McpError> {
