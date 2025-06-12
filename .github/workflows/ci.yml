@@ -15,10 +15,10 @@ jobs:
       fail-fast: false
       matrix:
         platform: [ ubuntu-latest, windows-latest, macos-latest ]
-        toolchain: [ stable, beta, 1.7.0 ]
+        toolchain: [ stable, beta, 1.63.0 ]
         exclude:
           - platform: windows-latest
-            toolchain: 1.7.0
+            toolchain: 1.63.0
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout source code
