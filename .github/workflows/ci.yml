@@ -27,6 +27,23 @@ jobs:
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain ${{ matrix.toolchain }}
           rustup override set ${{ matrix.toolchain }}
+      # Add protoc installation steps for each OS
+      - name: Install protoc (Ubuntu)
+        if: "matrix.platform == 'ubuntu-latest'"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+
+      - name: Install protoc (macOS)
+        if: "matrix.platform == 'macos-latest'"
+        run: |
+          brew install protobuf
+
+      - name: Install protoc (Windows)
+        if: "matrix.platform == 'windows-latest'"
+        run: |
+          choco install protoc
+
       - name: Install no-std-check dependencies for ARM Embedded
         if: "matrix.platform == 'ubuntu-latest'"
         run: |
