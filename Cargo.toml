@@ -2,7 +2,7 @@
 name = "cln-mcp"
 version = "0.1.0"
 edition = "2021"
-authors = Aditya Sharma <aditya.sharma20111@gmail.com>>
+authors = ["Aditya Sharma <aditya.sharma20111@gmail.com>"]
 description = "A Rust-based MCP server for Core Lightning nodes"
 license = "MIT"
 repository = "https://github.com/adi2011/cln-mcp"
@@ -19,3 +19,9 @@ prost = "0.11"           # ✅ Needed by tonic 0.9
 http = "0.2"             # ✅ Matches tonic 0.9
 http-body = "0.4"        # ✅ Matches tonic 0.9
 thiserror = "2.0.12"
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockall = "0.12"
+criterion = "0.5"
+test-log = "0.2"
