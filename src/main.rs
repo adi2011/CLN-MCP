@@ -78,7 +78,7 @@ async fn main() -> Result<()> {
         .serve(stdio())
         .await
         .inspect_err(|e| {
-            println!("Error starting server: {}", e);
+            println!("Error starting server: {e}");
         })?;
 
     service.waiting().await?;

@@ -19,7 +19,7 @@ impl CertPaths {
 }
 
 pub async fn load_tls_config(cert_dir: Option<String>) -> Result<ClientTlsConfig> {
-    let dir = cert_dir.or(Some("~".into())).unwrap();
+    let dir = cert_dir.unwrap_or("~".into());
     let paths = CertPaths::new(dir);
     load_tls_config_with_paths(&paths).await
 }
@@ -31,15 +31,15 @@ pub async fn load_tls_config_with_paths(paths: &CertPaths) -> Result<ClientTlsCo
     // Load certificates
     let ca_cert = tokio::fs::read(&paths.ca_cert)
         .await
-        .map_err(|e| CertError::IoError(e))?;
+        .map_err(CertError::IoError)?;
 
     let client_cert = tokio::fs::read(&paths.client_cert)
         .await
-        .map_err(|e| CertError::IoError(e))?;
+        .map_err(CertError::IoError)?;
 
     let client_key = tokio::fs::read(&paths.client_key)
         .await
-        .map_err(|e| CertError::IoError(e))?;
+        .map_err(CertError::IoError)?;
 
     // Create TLS configuration
     let tls_config = ClientTlsConfig::new()
