@@ -1,3 +1,7 @@
 /target/
 cargo.lock
 /certs/
+
+# Release artifacts
+*.tar.gz
+*.zip

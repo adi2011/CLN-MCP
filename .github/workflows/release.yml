@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  push:
+    tags:
+     - 'v*'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            name: linux-x86_64
+            artifact_name: cln-mcp-linux-x86_64
+            artifact_pattern: "cln-mcp-linux-x86_64.tar.gz"
+          - os: macos-latest
+            name: macos-x86_64
+            artifact_name: cln-mcp-macos-x86_64
+            artifact_pattern: "cln-mcp-macos-x86_64.tar.gz"
+          - os: windows-latest
+            name: windows-x86_64
+            artifact_name: cln-mcp-windows-x86_64.exe
+            artifact_pattern: "cln-mcp-windows-x86_64.zip"
+
+
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v4
+
+     - name: Install Rust stable toolchain
+       run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain stable
+          rustup override set stable
+
+     - name: Install protoc
+       if: runner.os == 'Linux'
+       run: |
+        sudo apt-get update
+        sudo apt-get install -y protobuf-compiler
+  
+     - name: Install protoc
+       if: runner.os == 'macOS'
+       run: |
+        brew install protobuf
+  
+     - name: Install protoc
+       if: runner.os == 'Windows'
+       run: |
+         choco install protoc
+
+     - name: Build
+       run: |
+        cargo build --release
+
+     - name: Package Windows
+       if: runner.os == 'Windows'
+       run: |
+        cd target/release
+        7z a -tzip ../../${{ matrix.artifact_pattern }} cln-mcp.exe
+        cd ../..
+
+     - name: Package Unix
+       if: runner.os != 'Windows'
+       run: |
+         cd target/release
+         tar -czf ../../${{ matrix.artifact_pattern }} cln-mcp
+         cd ../..
+
+     - name: Upload artifacts
+       uses: actions/upload-artifact@v4
+       with:
+        name: ${{ matrix.artifact_name }}
+        path: ${{ matrix.artifact_pattern }}
+        if-no-files-found: error
