@@ -13,6 +13,8 @@ jobs:
   CLN-GRPC:
     name: Server test
     runs-on: macos-14
+    env:
+      TOOLCHAIN: stable
     timeout-minutes: 180
     strategy:
       fail-fast: true
@@ -64,9 +66,36 @@ jobs:
       - name: Start CLN in regtest mode
         run: |
           cd lightning
-          lightningd/lightningd --network=regtest --log-file=/tmp/l1.log --daemon
+          lightningd/lightningd --network=regtest --log-file=/tmp/l1.log --daemon --grpc-port=9736
           sleep 5
 
       - name: Verify CLN is running
         run: |
+          cd lightning
           cli/lightning-cli --regtest getinfo
+
+
+      - name: file dhundna zara
+        run: |
+            ls -a
+            cd ..
+            ls -a
+            cd /CLN-MCP/lightning
+            ls -a
+
+      - name: tree
+        run: |
+            brew install tree
+            tree -a
+
+      - name: Install Rust ${{ env.toolchain }} toolchain
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile=minimal --default-toolchain ${{ env.toolchain }}
+          rustup override set ${{ env.toolchain }}
+
+      - name: Install protoc (macOS)
+        run: |
+          brew install protobuf
+
+      - name: Build server
+        run: cargo run -- --certs-dir ../.lightning/regtest/
