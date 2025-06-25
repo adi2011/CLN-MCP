@@ -8,7 +8,10 @@ use crate::utils::tls::load_tls_config;
 use anyhow::Result;
 use rmcp::{transport::stdio, ServiceExt};
 use std::env;
+use std::net::ToSocketAddrs;
 use std::time::Duration;
+use tracing::{debug, error, info};
+use tracing_subscriber::{self, EnvFilter};
 
 fn print_usage() {
     println!("Usage: cln-mcp [OPTIONS]");
@@ -31,16 +34,20 @@ fn parse_args() -> (Option<String>, String) {
                     certs_dir = Some(args[i + 1].clone());
                     i += 2;
                 } else {
-                    println!("Error: --certs-dir requires a path");
+                    error!("Error: --certs-dir requires a path");
                     std::process::exit(1);
                 }
             }
             "--node-adddress" => {
                 if i + 1 < args.len() {
                     node_address = args[i + 1].clone();
+                    if node_address.to_socket_addrs().is_err() {
+                        error!("Error: Invalid node address!");
+                        std::process::exit(1);
+                    }
                     i += 2;
                 } else {
-                    println!("Error: --node-address requires a URL");
+                    error!("Error: --node-address requires a URL");
                     std::process::exit(1);
                 }
             }
@@ -49,7 +56,7 @@ fn parse_args() -> (Option<String>, String) {
                 std::process::exit(0);
             }
             _ => {
-                println!("Unknown argument: {}", args[i]);
+                error!("Unknown argument: {}", args[i]);
                 print_usage();
                 std::process::exit(1);
             }
@@ -61,10 +68,20 @@ fn parse_args() -> (Option<String>, String) {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    tracing_subscriber::fmt()
+        .with_env_filter(
+            EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("debug")),
+        )
+        .init();
+
+    info!("CLN MCP server initiated!");
+
     let (certs_dir, node_addr) = parse_args();
 
     // Load TLS certificate
     let tls_config = load_tls_config(certs_dir).await?;
+
+    debug!("TLS certificate loaded!");
 
     // Create channel with default config
     let config = ClientConfig::new(node_addr, Duration::from_secs(1), Duration::from_secs(5));
@@ -72,6 +89,8 @@ async fn main() -> Result<()> {
     let channel = create_channel(&config)?
         .tls_config(tls_config)?
         .connect_lazy();
+
+    info!("--------------------Server Started Running!--------------------------");
 
     // Create and run the server with STDIO transport
     let service = NodeService::new(channel)

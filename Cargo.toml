@@ -17,15 +17,10 @@ anyhow = "1.0.98"
 tonic = { version = "0.11", features = ["tls"] }
 prost = "0.11"           # ✅ Needed by tonic 0.9
 http = "0.2"             # ✅ Matches tonic 0.9
-http-body = "0.4"        # ✅ Matches tonic 0.9
 thiserror = "2.0.12"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [[test]]
 name = "integration_test"
 path = "tests/integration_test.rs"
-
-[dev-dependencies]
-tokio-test = "0.4"
-mockall = "0.12"
-criterion = "0.5"
-test-log = "0.2"
