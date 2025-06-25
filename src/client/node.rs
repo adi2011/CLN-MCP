@@ -12,6 +12,7 @@ use serde::Serialize;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 use tonic::{transport::Channel, Request, Response};
+use tracing::debug;
 
 macro_rules! doc_from_file {
     ($path:expr) => {
@@ -60,6 +61,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.getinfo(request).await;
+        debug!("get_info called!");
         get_response(res)
     }
 
@@ -69,6 +71,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_configs(request).await;
+        debug!("list_configs called!");
         get_response(res)
     }
 
@@ -78,6 +81,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_addresses(request).await;
+        debug!("list_addresses called!");
         get_response(res)
     }
 
@@ -88,6 +92,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_channels(request).await;
+        debug!("list_channels called!");
         get_response(res)
     }
 
@@ -97,6 +102,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_peer_channels(request).await;
+        debug!("list_peer_channels called!");
         get_response(res)
     }
 
@@ -106,6 +112,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_closed_channels(request).await;
+        debug!("list_closed_channels called!");
         get_response(res)
     }
 
@@ -115,6 +122,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_htlcs(request).await;
+        debug!("list_htlcs called!");
         get_response(res)
     }
 
@@ -125,6 +133,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_pays(request).await;
+        debug!("list_pays called!");
         get_response(res)
     }
 
@@ -134,6 +143,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_send_pays(request).await;
+        debug!("list_send_pays called!");
         get_response(res)
     }
 
@@ -143,6 +153,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_forwards(request).await;
+        debug!("list_forwards called!");
         get_response(res)
     }
 
@@ -152,6 +163,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_invoices(request).await;
+        debug!("list_invoices called!");
         get_response(res)
     }
 
@@ -171,6 +183,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_peers(request).await;
+        debug!("list_peers called!");
         get_response(res)
     }
 
@@ -180,6 +193,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_nodes(request).await;
+        debug!("list_nodes called!");
         get_response(res)
     }
 
@@ -189,6 +203,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_funds(request).await;
+        debug!("list_funds called!");
         get_response(res)
     }
 
@@ -208,6 +223,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_offers(request).await;
+        debug!("list_offers called!");
         get_response(res)
     }
 
@@ -218,6 +234,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.list_datastore(request).await;
+        debug!("list_datastore called!");
         get_response(res)
     }
 
@@ -228,6 +245,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.bkpr_channels_apy(request).await;
+        debug!("bkpr_channels_pay called!");
         get_response(res)
     }
 
@@ -237,6 +255,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.bkpr_list_balances(request).await;
+        debug!("bkpr_list_balances called!");
         get_response(res)
     }
 
@@ -246,6 +265,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.bkpr_list_income(request).await;
+        debug!("bkpr_list_income called!");
         get_response(res)
     }
 
@@ -255,6 +275,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.bkpr_list_account_events(request).await;
+        debug!("bkpr_list_account_events called!");
         get_response(res)
     }
 
@@ -292,6 +313,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.feerates(request).await;
+        debug!("feerates called!");
         get_response(res)
     }
 
@@ -301,6 +323,7 @@ impl NodeService {
         let mut client = self.client.lock().await;
 
         let res = client.get_log(request).await;
+        debug!("get_log called!");
         get_response(res)
     }
 }
